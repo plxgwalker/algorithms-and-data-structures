@@ -44,7 +44,7 @@ void printArr(int arr[], int size)
 
 int RandomizedPartition(int A[], int p, int r)
 {
-	int i = rand() % r + 1;
+	int i = p + rand() % (r - p + 1);
 	swap(A[i], A[r]);
 	return Partition(A, p, r);
 }
@@ -58,7 +58,7 @@ void RandomizedQuickSort(int A[], int p, int r)
 		RandomizedQuickSort(A, p + 1, r);
 	}
 }
-
+// 1 10 0 -1
 int RandomizedSelect(int A[], int p, int r, int i)
 {
 	if (p == r)
