@@ -60,7 +60,9 @@ int main()
 			cout << "\nArray size: ";
 			cin >> arr_size;
 			input(arr, arr_size);
-			cout << "\nMax element: " << RandomizedSelect(arr, 0, arr_size - 1, arr_size) << endl;
+			RandomizedSelect(arr, 0, arr_size - 1, 0);
+			cout << endl;
+			cout << "Max element: " << maxArr(arr, arr_size) << endl;
 			cout << "Sorted array: ";
 			printArr(arr, arr_size);
 			cout << endl;

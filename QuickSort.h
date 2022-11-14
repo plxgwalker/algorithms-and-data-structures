@@ -9,3 +9,4 @@ void printArr(int arr[], int size);
 int RandomizedPartition(int A[], int p, int r);
 void RandomizedQuickSort(int A[], int p, int r);
 int RandomizedSelect(int A[], int p, int r, int i);
+int maxArr(int A[], int size);
