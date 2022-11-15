@@ -2,15 +2,20 @@
 
 int main()
 {
-    int arr[] = { 12, 11, 13, 5, 6, 7 };
-    auto arr_size = sizeof(arr) / sizeof(arr[0]);
+    int arr_size = 0;
+    int* arr = new int[arr_size];
 
-    cout << "Given array is \n";
+    cout << "Initialize array size: ";
+    cin >> arr_size;
+    input(arr, arr_size);
+
+    cout << "\nGiven array: ";
     printArr(arr, arr_size);
 
-    mergeSort(arr, 0, arr_size);
+    mergeSort(arr, 0, arr_size - 1);
 
-    cout << "\nSorted array is \n";
+    cout << "\nSorted array: ";
     printArr(arr, arr_size);
+
     return 0;
 }

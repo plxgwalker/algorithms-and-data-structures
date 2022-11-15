@@ -1,59 +1,63 @@
 ﻿#include "MergeSort.h"
 
-void merge(int arr[], int p, int q, int  r)
-{
-    int const n1 = q - p + 1;
-    int const n2 = r - q;
+void merge(int arr[], int p, int q, int r)
+{ 
+    // Create L ← A[p..q] and R ← A[q+1..r]
+    int n1 = q - p + 1;
+    int n2 = r - q;
 
-    int *L = new int[n1 + 1];
-    int *R = new int[n2 + 1];
+    auto* L = new int[n1];
+    auto* R = new int[n2];
 
     for (int i = 0; i < n1; i++)
-    {
         L[i] = arr[p + i];
-    }
-
     for (int j = 0; j < n2; j++)
-    {
-        R[j] = arr[q + j + 1];
-    }
+        R[j] = arr[q + 1 + j];
 
-    int i = 1;
-    int j = 1;
-    int k = 0;
+    // Maintain current index of sub-arrays and main array
+    int i, j, k;
+    i = 0;
+    j = 0;
+    k = p;
 
-    for (int k = p; i < n1 && j < n2; k++)
-    {
-        if (L[i] <= R[j])
-        {
-            arr[k] = L[i++];
+    // Until we reach either end of either L or R, pick larger among
+    // elements L and R and place them in the correct position at A[p..r]
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
         }
-        else
-        {
-            arr[k] = R[j++];
+        else {
+            arr[k] = R[j];
+            j++;
         }
+        k++;
     }
 
-    while (i < n1)
-    {
-        arr[k++] = L[i++];
+    // When we run out of elements in either L or R,
+    // pick up the remaining elements and put in arr[p..r]
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
     }
 
-    while (j < n2)
-    {
-        arr[k++] = R[j++];
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
     }
 }
 
-void mergeSort(int arr[], int p, int r)
+void mergeSort(int arr[], int l, int r)
 {
-    if (p < r)
+    if (l < r)
     {
-        int q = (p + r) / 2;
+        int m = (l + r) / 2;
 
-        mergeSort(arr, p, q);
-        mergeSort(arr, q + 1, r);
-        merge(arr, p, q, r);
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
     }
 }
 
@@ -61,4 +65,13 @@ void printArr(int arr[], int size)
 {
     for (int i = 0; i < size; i++)
         cout << arr[i] << " ";
+}
+
+void input(int arr[], int arr_size)
+{
+    cout << "Initialize an array: ";
+    for (int i = 0; i < arr_size; i++)
+    {
+        cin >> arr[i];
+    }
 }
