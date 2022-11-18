@@ -6,7 +6,7 @@ int main()
     int* arr = new int[arr_size];
 
     cout << "Initialize array size: ";
-    cin >> arr_size;
+    arr_size = check_array_size();
     input(arr, arr_size);
 
     cout << "\nGiven array: ";
