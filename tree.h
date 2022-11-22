@@ -25,4 +25,4 @@ Node* minimumNodeBST(Node*& pNode);
 Node* maximumNodeBST(Node*& pNode);
 Node* successorNodeBST(Node*& pNode);
 Node* predcessorNodeBST(Node*& pNode);
-void deleteNodeBST(Node*& delNode, int value);
+Node* DelNodeBST(Node*& delNode, datatype value);

@@ -75,15 +75,10 @@ int main() {
             cout << endl;
             cout << "Please enter value for node: ";
             cin >> value;
-            deleteNodeBST(root1, value);
+            DelNodeBST(root1, value);
             break;
         default:
             break;
         }
     }
-
-
-
-    
-
 }

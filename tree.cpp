@@ -27,7 +27,8 @@ void createTree(Node*& pNode, int n) {
 }
 
 void showTree(Node*& pNode, int l){
-    if (pNode != NULL) {
+    if (pNode != NULL)
+    {
         showTree(pNode->right, l + 1);
         for (int i = 0; i < l; i++) cout << "\t";
         cout << pNode->key << endl;
@@ -62,12 +63,11 @@ void infixOrder(Node* pNode) {
 // Binary Search Tree
 
 Node* searchNodeBST(Node* pNode, int key) { // Пошук даних за ключем у бінарному дереві пошуку
-    while(pNode) {
+    while(pNode != NULL) {
         if (pNode->key == key) return pNode;
         else if (pNode->key > key) pNode = pNode->left;
         else if (pNode->key < key) pNode = pNode->right;
     }
-    return pNode;
 }
 
 Node* createRootBST(Node*& pNode) { // Створення бінарного дерева пошуку
@@ -125,32 +125,25 @@ int insertNodeBST(Node*& pNode, int key) {
 }
 
 Node* minimumNodeBST(Node*& pNode) {
-    Node* previous = pNode;
-    while (previous->left != NULL) previous = previous->left;
-    return previous;
+    while (pNode->left != NULL) pNode = pNode->left;
+    return pNode;
 }
 
 Node* maximumNodeBST(Node*& pNode) {
-    Node* previous = pNode;
-    while (previous->right != NULL) previous = previous->right;
-    return previous;
+    while (pNode->right != NULL) pNode = pNode->right;
+    return pNode;
 }
 
 Node* successorNodeBST(Node*& pNode) {
     if (pNode->right != NULL) {
         return minimumNodeBST(pNode->right);
     }
-    else {
-        if (pNode->right == NULL) {
-            Node* previous = pNode->parent;
-            while (previous != NULL && pNode == previous->right)
-            {
-                pNode = previous;
-                previous = previous->parent;
-            }
-            return previous;
-        }
+    Node* y = pNode->parent;
+    while (y != NULL && pNode == y->right) {
+        pNode = y;
+        y = y->parent;
     }
+    return y;
 }
 
 Node* predcessorNodeBST(Node*& pNode) {
@@ -170,63 +163,37 @@ Node* predcessorNodeBST(Node*& pNode) {
     }
 }
 
-void deleteNodeBST(Node*& root, int key) {
-    Node* delNode = searchNodeBST(root, key);
-    if (delNode == NULL) {
-        cout << "Key does not exists." << endl;
-        return;
+Node* DelNodeBST(Node*& delNode, datatype value) {
+    if (searchNodeBST(delNode, value) == NULL) cout << "No value" << endl;
+
+    else if (delNode == NULL) return delNode;
+    else if (delNode->key > value) DelNodeBST(delNode->left, value);
+    else if (delNode->key < value) DelNodeBST(delNode->right, value);
+
+    else if (delNode->left == NULL && delNode->right == NULL) 
+    {
+        delete delNode;
+        delNode = NULL;
+    }
+    else if (delNode->left == NULL) 
+    {
+        Node* temp = delNode;
+        delNode = delNode->right;
+        delete temp;
+    }
+    else if (delNode->right == NULL) {
+        Node* temp = delNode;
+        delNode = delNode->left;
+        delete temp;
     }
     else {
-        if (delNode->left == NULL && delNode->right == NULL) {
-            if (delNode == root) {
-                delete root;
-            }
-            else if (delNode == delNode->parent->left) {
-                delNode->parent->left = NULL;
-            }
-            else if (delNode == delNode->parent->right) {
-                delNode->parent->right = NULL;
-            }
-            delete delNode;
-            showTree(root, 0);
-        }
+        Node* temp = delNode->left;
 
-        else if (delNode->left != NULL || delNode->right != NULL) {
-            Node* next = new Node;
+        while (temp->right != NULL) temp = temp->right;
 
-            if (delNode->left != NULL) {
-                next = delNode->left;
-            }
-            else {
-                next = delNode->right;
-            }
-
-            if (delNode->parent != NULL) {
-                if (delNode->parent->left->key == delNode->key) {
-                    delNode->parent->left = next;
-                }
-                else {
-                    delNode->parent->right = next;
-                }
-
-                next->parent = delNode->parent;
-                delete delNode;
-                showTree(root, 0);
-            }
-
-            else {
-                root = next;
-                delete delNode;
-                showTree(root, 0);
-            }
-        }
-
-        else if (delNode->left != NULL && delNode->right != NULL) {
-            Node* term = successorNodeBST(delNode);
-            int temp = delNode->key;
-            delNode->key = term->key;
-            term->key = temp;
-            deleteNodeBST(term, key);
-        }
+        delNode->key = temp->key;
+        delNode->left = DelNodeBST(delNode->left, temp->key);
     }
+
+    return delNode;
 }
